@@ -24,6 +24,16 @@ RSpec.describe GameBoard, type: :model do
       end
     end
 
+    context "#place_in_irandom_col" do
+      it "places the given value at the first opening in a random column" do
+        board = [[0, 0, 0], [0, 1, 0], [0, 2, 0]]
+        gameboard = GameBoard.new(board: board)
+        gameboard.stub(:rand) { 1 }
+        gameboard.place_in_random_col(2)
+        expect(gameboard.get_cell(0, 1)).to eq(2)
+      end
+    end
+
     context "#set_cell" do
       it "updates the value of a given cell" do
         board = [[0, 0, 0], [0, 1, 0], [0, 2, 0]]

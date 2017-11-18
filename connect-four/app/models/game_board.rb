@@ -12,7 +12,13 @@ class GameBoard < ApplicationRecord
   def get_cell(x, y)
     board[y][x]
   end
-  
+ 
+  def place_in_random_col(value)
+    rand = rand(0...board.size - 1)
+
+    set_cell(rand, value)
+  end
+
   def set_cell(y, value)
     x = get_next_opening(y)
     
