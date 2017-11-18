@@ -13,8 +13,40 @@ class GameBoard < ApplicationRecord
     board[y][x]
   end
   
-  def set_cell(x, y, value)
-    board[x][y] = value
+  def set_cell(y, value)
+    x = get_next_opening(y)
+    
+    if x == -1 
+      raise ArgumentError, 'Column is already full'
+    end
+
+    board[y][x] = value
+  end
+
+  def get_next_opening(y)
+    col = get_column(y)
+    # Starting at the end of the array, get the index of the first zero cell
+    # If the column is full, it returns -1
+    i = col.size - 1
+    while i >= 0 do
+      break if col[i] == 0
+      i -= 1
+    end
+    i
+  end
+
+  def get_column(y)
+    col = []
+    i = 0
+    # Ensure the column number is valid for the board
+    if y < board.size
+      # Iterate through each row, plucking the element from the given column
+      while i < board.size  do
+        col << board[i][y]
+        i += 1
+      end
+    end
+    col
   end
 
   def game_over

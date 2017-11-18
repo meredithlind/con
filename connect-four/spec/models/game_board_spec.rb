@@ -25,11 +25,42 @@ RSpec.describe GameBoard, type: :model do
     end
 
     context "#set_cell" do
-      it "update the value of a given cell" do
-        board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      it "updates the value of a given cell" do
+        board = [[0, 0, 0], [0, 1, 0], [0, 2, 0]]
         gameboard = GameBoard.new(board: board)
-        gameboard.set_cell(2, 2, 2)
+        gameboard.set_cell(2, 2)
+        gameboard.set_cell(1, 1)
         expect(gameboard.get_cell(2, 2)).to eq(2)
+        expect(gameboard.get_cell(0, 1)).to eq(1)
+      end
+
+      it "raises error when column is already full" do
+        board = [[1, 0, 0], [2, 1, 0], [1, 2, 0]]
+        gameboard = GameBoard.new(board: board)
+        expect { gameboard.set_cell(0, 1) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context "#get_next_opening" do
+      it "gets the index of the first cell of value 0" do
+        board = [[0, 0, 0, 2], [0, 2, 0, 2], [1, 1, 0, 1], [1, 1, 0, 2]]
+        gameboard = GameBoard.new(board: board)
+
+        expect(gameboard.get_next_opening(0)).to eq(1)
+        expect(gameboard.get_next_opening(1)).to eq(0)
+        expect(gameboard.get_next_opening(2)).to eq(3)
+        expect(gameboard.get_next_opening(3)).to eq(-1)
+      end
+    end
+
+    context "#get_column" do
+      it "gets the values in the given column" do
+        board = [[0, 0, 0], [0, 2, 0], [1, 1, 0]]
+        gameboard = GameBoard.new(board: board)
+
+        expect(gameboard.get_column(0)).to eq([0, 0, 1])
+        expect(gameboard.get_column(1)).to eq([0, 2, 1])
+        expect(gameboard.get_column(2)).to eq([0, 0, 0])
       end
     end
 
