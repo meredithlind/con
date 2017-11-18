@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe GameBoard, type: :model do
 
@@ -40,7 +40,7 @@ RSpec.describe GameBoard, type: :model do
       end
     end
     
-    context "#game_over" do
+   xcontext "#game_over" do
       it "returns :winner if winner? is true" do
         board = GameBoard.new
         board.stub(:winner?) { true }
