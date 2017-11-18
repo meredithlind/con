@@ -1,0 +1,18 @@
+<div class="title">
+  <h1 class="title-name">Welcome to Connect Four</h1>
+</div>
+
+<div class="game">
+  <%= @game.current_player.name %>
+  <%= @game.next_player.name %>
+
+  <div class="board">
+    <% @game.game_board.board.each do |row| %>
+      <div class="row">
+        <% row.each do |cell| %>
+          <%= cell.value %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
