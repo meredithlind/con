@@ -24,7 +24,7 @@ RSpec.describe GameBoard, type: :model do
       end
     end
 
-    context "#place_in_irandom_col" do
+    context "#place_in_random_col" do
       it "places the given value at the first opening in a random column" do
         board = [[0, 0, 0], [0, 1, 0], [0, 2, 0]]
         gameboard = GameBoard.new(board: board)

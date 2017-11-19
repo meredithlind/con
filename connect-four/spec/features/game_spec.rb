@@ -1,6 +1,11 @@
 require 'rails_helper'
 
-describe "Viewing the game board" do
+describe "Starting a Game" do
+
+  it "updates the game board when a player moves" do
+    visit root_path
+    click_on 'Start Game'
+  end
 
   it "shows 6 x 7 game board" do
     visit root_path
