@@ -1,21 +1,25 @@
-<div class="title">
-  <h1 class="title-name">Welcome to Connect Four</h1>
-</div>
+<div class="container">
+  <img src="connect-four-wide.png"/>
 
-<div class="game">
   <%= button_to 'Start Game', action: 'play' %>
-  <%= @game.current_player.name %>
-  <%= @game.next_player.name %>
 
-  <div class="board">
-    <% @game.game_board.board.each do |row| %>
-      <div class="row">
-        <% row.each do |cell| %>
-          <span class="cell">
-            <%= cell.value %>
-          </span>
-        <% end %>
-      </div>
-    <% end %>
+  <div class="game">
+    <div class="player1"><%= @game.players[0].name %></div>
+
+    <div class="board">
+      <% @game.game_board.board.each do |row| %>
+        <div class="row">
+          <% row.each do |cell| %>
+            <span class="circle cell_<%= cell %>">
+              <% cell %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="player2"><%= @game.players[1].name %></div>
+  </div>
+  <div class="footer">
+    <h4>Created by Meredith Lind</h1>
   </div>
 </div>
