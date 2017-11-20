@@ -2,15 +2,20 @@ class GameBoard < ApplicationRecord
   attr_reader :board
 
   def initialize(input = {})
+    super
     @board = input.fetch(:board, default)
   end
 
   def default
-    Array.new(6) { Array.new(7) { Cell.new } }
+    Array.new(6) { Array.new(7) { 0 } }
+  end
+
+  def test
+    Array.new(6) { [0,0,0,0,1,0,2] }
   end
 
   def get_cell(x, y)
-    board[y][x]
+    board[x][y]
   end
  
   def place_in_random_col(value)
@@ -23,10 +28,15 @@ class GameBoard < ApplicationRecord
     x = get_next_opening(y)
     
     if x == -1 
-      raise ArgumentError, 'Column is already full'
+      begin
+        raise ArgumentError, 'Column is already full'
+      rescue
+        place_in_random_col(value)
+      end
     end
 
-    board[y][x] = value
+    board[x][y] = value
+    board
   end
 
   def get_next_opening(y)
@@ -53,6 +63,18 @@ class GameBoard < ApplicationRecord
       end
     end
     col
+  end
+
+  def full?
+    board.each do |row|
+      row.each do |cell|
+        if cell == 0
+          return false
+          break
+        end
+      end
+      return true
+    end
   end
 
   def game_over

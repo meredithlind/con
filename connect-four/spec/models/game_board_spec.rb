@@ -20,7 +20,7 @@ RSpec.describe GameBoard, type: :model do
       it "returns the cell from the (x, y) coordinate" do
         board = [[0, 0, 0], [1, 1, 0], [1, 1, 1]]
         gameboard = GameBoard.new(board: board)
-        expect(gameboard.get_cell(2, 1)).to eq(0)
+        expect(gameboard.get_cell(2, 1)).to eq(1)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe GameBoard, type: :model do
         expect(gameboard.get_cell(0, 1)).to eq(1)
       end
 
-      it "raises error when column is already full" do
+      xit "raises error when column is already full" do
         board = [[1, 0, 0], [2, 1, 0], [1, 2, 0]]
         gameboard = GameBoard.new(board: board)
         expect { gameboard.set_cell(0, 1) }.to raise_error(ArgumentError)
@@ -81,6 +81,20 @@ RSpec.describe GameBoard, type: :model do
       end
     end
     
+    context "#full?" do
+      it "checks if the game board is full" do
+        board = [[0, 0, 0], [0, 2, 0], [1, 1, 0]]
+        gameboard = GameBoard.new(board: board)
+        expect(gameboard.full?).to eq(false)
+      end
+
+      it "correctly checks a full board" do
+        board = [[1, 1, 2], [1, 2, 1], [1, 1, 2]]
+        gameboard = GameBoard.new(board: board)
+        expect(gameboard.full?).to eq(true)
+      end
+    end
+
    xcontext "#game_over" do
       it "returns :winner if winner? is true" do
         board = GameBoard.new
