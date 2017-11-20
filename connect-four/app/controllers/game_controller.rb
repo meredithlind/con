@@ -1,4 +1,5 @@
 class GameController < ApplicationController
+  
   def new
     p1 = Player.new({value: 1, name: "Player 1"})
     p2 = Player.new({value: 2, name: "Player 2"})
@@ -20,6 +21,5 @@ class GameController < ApplicationController
       puts "Current player: #{@game.current_player.name}"
       puts @game.game_board.board.join(" ")
     end
-    puts "game over"
   end
 end

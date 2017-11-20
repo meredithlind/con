@@ -3,15 +3,15 @@ class GameBoard < ApplicationRecord
 
   def initialize(input = {})
     super
-    @board = input.fetch(:board, test)
+    @board = input.fetch(:board, default)
   end
 
   def default
     Array.new(6) { Array.new(7) { 0 } }
   end
 
-  def test
-    Array.new(6) { Array.new(7) { 0 } } << [1,1,1,2,1,2,2]
+  def sample
+    Array.new(5) { Array.new(7) { 0 } } << [1,1,1,2,1,2,2]
   end
 
   def get_cell(x, y)
@@ -19,7 +19,7 @@ class GameBoard < ApplicationRecord
   end
  
   def place_in_random_col(value)
-    rand = rand(0...board.size - 1)
+    rand = rand(0...board[0].size)
 
     set_cell(rand, value)
   end
@@ -55,7 +55,7 @@ class GameBoard < ApplicationRecord
     col = []
     i = 0
     # Ensure the column number is valid for the board
-    if y < board.size
+    if y < board[0].size
       # Iterate through each row, plucking the element from the given column
       while i < board.size  do
         col << board[i][y]
