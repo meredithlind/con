@@ -1,0 +1,16 @@
+<div class="game">
+  <div class="player1"><%= game.players[0].name %></div>
+
+  <div class="board">
+    <% game.game_board.board.each do |row| %>
+      <div class="row">
+        <% row.each do |cell| %>
+          <span class="circle cell_<%= cell %>">
+            <% cell %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="player2"><%= game.players[1].name %></div>
+</div>

@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  root 'game#create'
+  root 'game#new'
   post '/', to: 'game#play'
 end

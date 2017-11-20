@@ -1,24 +1,10 @@
 <div class="container">
   <img src="connect-four-wide.png"/>
 
-  <%= button_to 'Start Game', action: 'play' %>
+  <%= button_to 'Start Game', action: 'play', remote: true %>
 
-  <div class="game">
-    <div class="player1"><%= @game.players[0].name %></div>
+  <%= render 'board', game: @game %>
 
-    <div class="board">
-      <% @game.game_board.board.each do |row| %>
-        <div class="row">
-          <% row.each do |cell| %>
-            <span class="circle cell_<%= cell %>">
-              <% cell %>
-            </span>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-    <div class="player2"><%= @game.players[1].name %></div>
-  </div>
   <div class="footer">
     <h4>Created by Meredith Lind</h1>
   </div>
