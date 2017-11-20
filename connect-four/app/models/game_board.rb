@@ -3,7 +3,7 @@ class GameBoard < ApplicationRecord
 
   def initialize(input = {})
     super
-    @board = input.fetch(:board, default)
+    @board = input.fetch(:board, test)
   end
 
   def default
@@ -11,7 +11,7 @@ class GameBoard < ApplicationRecord
   end
 
   def test
-    Array.new(6) { [0,0,0,0,1,0,2] }
+    Array.new(6) { Array.new(7) { 0 } } << [1,1,1,2,1,2,2]
   end
 
   def get_cell(x, y)
@@ -73,8 +73,8 @@ class GameBoard < ApplicationRecord
           break
         end
       end
-      return true
     end
+    return true
   end
 
   def game_over

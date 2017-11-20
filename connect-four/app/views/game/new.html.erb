@@ -1,9 +1,11 @@
 <div class="container">
   <img src="connect-four-wide.png"/>
 
-  <%= button_to 'Start Game', action: 'play', remote: true %>
+  <%= button_to 'Start Game', action: 'play' %>
 
-  <%= render 'board', game: @game %>
+  <div id="game-board">
+    <%= render 'board', game: @game %>
+  </div>
 
   <div class="footer">
     <h4>Created by Meredith Lind</h1>

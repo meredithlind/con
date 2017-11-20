@@ -82,7 +82,7 @@ RSpec.describe GameBoard, type: :model do
     end
     
     context "#full?" do
-      it "checks if the game board is full" do
+      it "correctly checks a non-full board" do
         board = [[0, 0, 0], [0, 2, 0], [1, 1, 0]]
         gameboard = GameBoard.new(board: board)
         expect(gameboard.full?).to eq(false)

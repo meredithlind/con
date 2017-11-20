@@ -9,7 +9,6 @@ class GameController < ApplicationController
   def move
     # the current player makes their move
     @game.game_board.board = @game.game_board.place_in_random_col(@game.current_player.value)
-    # check if game is won
     @game.switch_players
   end
 
@@ -18,6 +17,8 @@ class GameController < ApplicationController
     # until @current_player.winner?
     until @game.game_board.full?
       move
+      puts "Current player: #{@game.current_player.name}"
+      puts @game.game_board.board.join(" ")
     end
     puts "game over"
   end
