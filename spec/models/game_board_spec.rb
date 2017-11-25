@@ -116,5 +116,149 @@ RSpec.describe GameBoard, type: :model do
         expect(board.game_over).to eq(false)
       end
     end
+
+    context "#vertical_victory" do
+      it "returns 0 if no verticals" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,1,0,0,0,0],
+                 [1,1,2,1,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.vertical_victory).to eq(0)
+      end
+
+      it "returns the player with a vertical four in a row" do
+        board = [[0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,1,0,0,0,0],
+                 [1,1,2,1,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.vertical_victory).to eq(2)
+      end
+    end
+
+    context "#horizontal_victory" do
+      it "returns 0 if no horizontals" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,1,0,0,0,0],
+                 [1,1,2,1,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.horizontal_victory).to eq(0)
+      end
+
+      it "returns the player with a horizontal four in a row" do
+        board = [[0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [1,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,1,1,1,1,0,0],
+                 [1,1,2,1,2,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.horizontal_victory).to eq(1)
+      end
+    end
+
+    context "#diagonal_victory" do
+      it "returns 0 if no diagonals" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [2,0,1,0,0,0,0],
+                 [1,1,2,1,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.diagonal_victory).to eq(0)
+      end
+
+      it "detects a desc diagonal victory and returns victor" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [1,2,0,0,1,0,0],
+                 [2,2,2,0,1,0,0],
+                 [1,1,2,2,1,0,0]]
+        gameboard = GameBoard.new(board: board)
+        expect(gameboard.diagonal_victory).to eq(2)
+      end
+
+      it "detects an asc diagonal victory and returns victor" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,1,0,0],
+                 [2,0,0,1,2,0,0],
+                 [2,0,1,2,2,0,0],
+                 [1,1,2,1,1,0,0]]
+        gameboard = GameBoard.new(board: board)
+        expect(gameboard.diagonal_victory).to eq(1)
+      end
+    end
+
+    context "#win?" do
+      it "returns true if given player won" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,1,0,1,1,0,0],
+                 [2,1,2,2,2,0,0],
+                 [2,1,1,2,2,0,0],
+                 [1,1,2,1,1,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.win?('player-one')).to eq(true)
+        expect(gameboard.win?('player-two')).to eq(false)
+      end
+
+      it "returns false for both if no winner" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [2,0,0,0,0,0,0],
+                 [1,2,0,0,1,0,0],
+                 [2,2,2,0,1,0,0],
+                 [1,1,2,2,1,0,0]]
+        gameboard = GameBoard.new(board: board)
+
+        expect(gameboard.win?('player-one')).to eq(false)
+        expect(gameboard.win?('player-two')).to eq(false)
+      end
+    end
+
+    context "#get_next_smart_move" do
+      it "returns the same column if the other player didn't block it" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,1,2,2,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        
+        expect(gameboard.get_next_smart_move).to eq(1)
+        expect(gameboard.get_next_smart_move).to eq(1)
+      end
+
+      it "returns the same column if the other player didn't block it" do
+        board = [[0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,0,0,0,0,0,0],
+                 [0,2,0,0,0,0,0],
+                 [0,1,2,0,0,0,0]]
+        gameboard = GameBoard.new(board: board)
+        gameboard.stub(:rand) { 4 }
+        
+        expect(gameboard.get_next_smart_move).to eq(4)
+      end
+    end
   end
 end

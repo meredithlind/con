@@ -82,4 +82,93 @@ class GameBoard < ApplicationRecord
     return :draw if draw?
     false
   end
+
+  def vertical_victory
+    row = 0
+    until row == 2 do
+      col = 0
+      until col == 6 do
+        if board[row][col] != 0 &&
+          board[row][col] == board[row+1][col] &&
+          board[row][col] == board[row+2][col] &&
+          board[row][col] == board[row+3][col]
+          return board[row][col]
+        end
+        col += 1
+      end
+      row += 1
+    end
+    return 0
+  end
+
+  def horizontal_victory
+    row = 0
+    until row == 5 do
+      col = 0
+      until col == 3 do
+        if board[row][col] != 0 &&
+          board[row][col] == board[row][col+1] &&
+          board[row][col] == board[row][col+2] &&
+          board[row][col] == board[row][col+3]
+          return board[row][col]
+        end
+        col += 1
+      end
+      row += 1
+    end
+    return 0
+  end
+
+  def diagonal_victory
+    col = 0
+    until col == 3 do
+      # Check for descending horizontal
+      row = 0
+      until row == 2 do
+        if board[row][col] != 0 &&
+          board[row][col] == board[row+1][col+1] &&
+          board[row][col] == board[row+2][col+2] &&
+          board[row][col] == board[row+3][col+3]
+          return board[row][col]
+        end
+        row += 1
+      end
+
+      # Check for ascending horizontal
+      row = 3
+      until row == 5 do
+        if board[row][col] != 0 &&
+          board[row][col] == board[row-1][col+1] &&
+          board[row][col] == board[row-2][col+2] &&
+          board[row][col] == board[row-3][col+3]
+          return board[row][col]
+        end
+        row += 1
+      end
+      col += 1
+    end
+    return 0
+  end
+
+  def win?(player)
+    if player == 'player-one'
+      player = 1
+    else
+      player = 2
+    end
+
+    horizontal_victory == player || vertical_victory == player || diagonal_victory == player
+  end
+
+  def get_next_smart_move
+    i = 0
+    while i < board[0].size do
+      j = get_next_opening(i) + 1
+      if j < board.size && board[j][i] == 1
+        return i
+      end
+      i += 1
+    end
+    rand(0...@board[0].size)
+  end
 end
